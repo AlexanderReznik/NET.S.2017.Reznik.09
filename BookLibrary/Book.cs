@@ -93,41 +93,87 @@ namespace BookLibrary
 
         #region comparing
 
+        /// <summary>
+        /// Equals
+        /// </summary>
+        /// <param name="other">Book to compare</param>
+        /// <returns>true if equals</returns>
         public bool Equals(Book other)
         {
             return Comparer.Compare(this, other) == 0;
         }
 
+        /// <summary>
+        /// Method to compare
+        /// </summary>
+        /// <param name="other">Book to compare</param>
+        /// <returns>negative if less, 0 if equals, positive if greater</returns>
         public int CompareTo(Book other)
         {
             return Comparer.Compare(this, other);
         }
 
+        /// <summary>
+        /// Method to compare
+        /// </summary>
+        /// <param name="lhs">One book</param>
+        /// <param name="rhs">Another book</param>
+        /// <returns>true if less</returns>
         public static bool operator <(Book lhs, Book rhs)
         {
             return Comparer.Compare(lhs, rhs) < 0;
         }
 
+        /// <summary>
+        /// Method to compare
+        /// </summary>
+        /// <param name="lhs">One book</param>
+        /// <param name="rhs">Another book</param>
+        /// <returns>true if greater</returns>
         public static bool operator >(Book lhs, Book rhs)
         {
             return Comparer.Compare(lhs, rhs) > 0;
         }
 
+        /// <summary>
+        /// Method to compare
+        /// </summary>
+        /// <param name="lhs">One book</param>
+        /// <param name="rhs">Another book</param>
+        /// <returns>true if less or equal</returns>
         public static bool operator <=(Book lhs, Book rhs)
         {
             return Comparer.Compare(lhs, rhs) <= 0;
         }
 
+        /// <summary>
+        /// Method to compare
+        /// </summary>
+        /// <param name="lhs">One book</param>
+        /// <param name="rhs">Another book</param>
+        /// <returns>true if less or equal</returns>
         public static bool operator >=(Book lhs, Book rhs)
         {
             return Comparer.Compare(lhs, rhs) >= 0;
         }
 
+        /// <summary>
+        /// Method to compare
+        /// </summary>
+        /// <param name="lhs">One book</param>
+        /// <param name="rhs">Another book</param>
+        /// <returns>true if equal</returns>
         public static bool operator ==(Book lhs, Book rhs)
         {
             return Comparer.Compare(lhs, rhs) == 0;
         }
 
+        /// <summary>
+        /// Method to compare
+        /// </summary>
+        /// <param name="lhs">One book</param>
+        /// <param name="rhs">Another book</param>
+        /// <returns>false if equal</returns>
         public static bool operator !=(Book lhs, Book rhs)
         {
             return Comparer.Compare(lhs, rhs) != 0;

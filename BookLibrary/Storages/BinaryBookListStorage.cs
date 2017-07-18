@@ -19,6 +19,10 @@ namespace BookLibrary
             _fileName = filename;
         }
 
+        /// <summary>
+        /// Method to load a list of books from binary file
+        /// </summary>
+        /// <param name="list">list to read</param>
         public void Load(out List<Book> list)
         {
             using (BinaryReader reader = new BinaryReader(File.OpenRead(FileName)))
@@ -39,6 +43,10 @@ namespace BookLibrary
             }
         }
 
+        /// <summary>
+        /// A method to save a list of books to binary file
+        /// </summary>
+        /// <param name="list">list to save</param>
         public void Save(List<Book> list)
         {
             if(list == null)
