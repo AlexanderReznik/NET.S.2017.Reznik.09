@@ -44,8 +44,6 @@
     <Compile Include="Services\BookListService.cs" />
     <Compile Include="IBookListStorage.cs" />
     <Compile Include="IBookService.cs" />
-    <Compile Include="Comparers\FullComparer.cs" />
-    <Compile Include="IBookComparer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storages\BinaryBookListStorage.cs" />
   </ItemGroup>

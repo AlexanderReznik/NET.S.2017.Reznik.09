@@ -1,35 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BookLibrary
 {
-    public class Book : IComparable<Book>
+    public class Book : IComparable<Book>, IComparable, IEquatable<Book>
     {
         #region properties
         /// <summary>
         /// Title of the book
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get;}
 
         /// <summary>
         /// Author (or authors)
         /// </summary>
-        public string Author { get; set; }
+        public string Author { get;}
 
         /// <summary>
         /// The year, this book was published
         /// </summary>
-        public int Year { get; set; }
+        public int Year { get;}
 
         /// <summary>
         /// Number of pages
         /// </summary>
-        public int Pages { get; set; }
-
-        private static IComparer<Book> Comparer { get; }
+        public int Pages { get;}
 
         #endregion
 
@@ -60,19 +59,11 @@ namespace BookLibrary
         #region c-tors
 
         /// <summary>
-        /// Initialises comparator
-        /// </summary>
-        static Book()
-        {
-            Comparer = new FullComparer();
-        }
-
-        /// <summary>
         /// c-tor
         /// </summary>
         /// <param name="author">Author</param>
         /// <param name="name">Name</param>
-        /// <param name="year"Year></param>
+        /// <param name="year">Year</param>
         /// <param name="pages">number of pages</param>
         public Book(string author, string name, int year, int pages)
         {
@@ -100,7 +91,7 @@ namespace BookLibrary
         /// <returns>true if equals</returns>
         public bool Equals(Book other)
         {
-            return Comparer.Compare(this, other) == 0;
+            return Compare(this, other) == 0;
         }
 
         /// <summary>
@@ -110,51 +101,18 @@ namespace BookLibrary
         /// <returns>negative if less, 0 if equals, positive if greater</returns>
         public int CompareTo(Book other)
         {
-            return Comparer.Compare(this, other);
+            return Compare(this, other);
         }
 
         /// <summary>
         /// Method to compare
         /// </summary>
-        /// <param name="lhs">One book</param>
-        /// <param name="rhs">Another book</param>
-        /// <returns>true if less</returns>
-        public static bool operator <(Book lhs, Book rhs)
+        /// <param name="other">Book to compare</param>
+        /// <returns>negative if less, 0 if equals, positive if greater</returns>
+        public int CompareTo(Object other)
         {
-            return Comparer.Compare(lhs, rhs) < 0;
-        }
-
-        /// <summary>
-        /// Method to compare
-        /// </summary>
-        /// <param name="lhs">One book</param>
-        /// <param name="rhs">Another book</param>
-        /// <returns>true if greater</returns>
-        public static bool operator >(Book lhs, Book rhs)
-        {
-            return Comparer.Compare(lhs, rhs) > 0;
-        }
-
-        /// <summary>
-        /// Method to compare
-        /// </summary>
-        /// <param name="lhs">One book</param>
-        /// <param name="rhs">Another book</param>
-        /// <returns>true if less or equal</returns>
-        public static bool operator <=(Book lhs, Book rhs)
-        {
-            return Comparer.Compare(lhs, rhs) <= 0;
-        }
-
-        /// <summary>
-        /// Method to compare
-        /// </summary>
-        /// <param name="lhs">One book</param>
-        /// <param name="rhs">Another book</param>
-        /// <returns>true if less or equal</returns>
-        public static bool operator >=(Book lhs, Book rhs)
-        {
-            return Comparer.Compare(lhs, rhs) >= 0;
+            if(!(other is Book)) throw new ArgumentException("Incorrect comparision");
+            return Compare(this, (Book)other);
         }
 
         /// <summary>
@@ -165,7 +123,7 @@ namespace BookLibrary
         /// <returns>true if equal</returns>
         public static bool operator ==(Book lhs, Book rhs)
         {
-            return Comparer.Compare(lhs, rhs) == 0;
+            return Compare(lhs, rhs) == 0;
         }
 
         /// <summary>
@@ -176,7 +134,15 @@ namespace BookLibrary
         /// <returns>false if equal</returns>
         public static bool operator !=(Book lhs, Book rhs)
         {
-            return Comparer.Compare(lhs, rhs) != 0;
+            return Compare(lhs, rhs) != 0;
+        }
+
+        private static int Compare(Book lhs, Book rhs)
+        {
+            if (ReferenceEquals(lhs, rhs)) return 0;
+            if (ReferenceEquals(lhs, null)) return 1;
+            if (ReferenceEquals(rhs, null)) return -1;
+            return string.Compare(lhs.Name, rhs.Name, ignoreCase: true, culture: CultureInfo.CurrentCulture);
         }
 
         #endregion

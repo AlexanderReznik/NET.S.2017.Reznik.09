@@ -22,12 +22,13 @@ namespace BookLibrary
         /// <summary>
         /// Method to load a list of books from binary file
         /// </summary>
-        /// <param name="list">list to read</param>
-        public void Load(out List<Book> list)
+        /// <returns>Collection of books</returns>
+        public IEnumerable<Book> Load()
         {
+            if(!File.Exists(FileName)) throw new FileNotFoundException();
             using (BinaryReader reader = new BinaryReader(File.OpenRead(FileName)))
             {
-                list = new List<Book>();
+                List<Book> list = new List<Book>();
 
                 while (reader.BaseStream.Position != reader.BaseStream.Length)
                 {
@@ -40,14 +41,15 @@ namespace BookLibrary
 
                     if(!list.Contains(b)) list.Add(b);
                 }
+                return list;
             }
         }
 
         /// <summary>
         /// A method to save a list of books to binary file
         /// </summary>
-        /// <param name="list">list to save</param>
-        public void Save(List<Book> list)
+        /// <param name="list">Coolection to save</param>
+        public void Save(IEnumerable<Book> list)
         {
             if(list == null)
                 throw new ArgumentNullException();

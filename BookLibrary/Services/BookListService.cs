@@ -13,24 +13,31 @@ namespace BookLibrary
         private List<Book> Books { get { return _books; } set { _books = value; }}
 
         /// <summary>
-        /// Indexer
+        /// c-tor
         /// </summary>
-        /// <param name="i">index</param>
-        /// <returns>Book i in list</returns>
-        public Book this[int i] => Books[i];
+        /// <param name="books">Collection of books</param>
+        public BookListService(IEnumerable<Book> books)
+        {
+            if (books == null)
+            {
+                Books = new List<Book>();
+                return;
+            }
+            Books = new List<Book>(books);
+        }
 
         /// <summary>
-        /// Size
+        /// default c-tor
         /// </summary>
-        /// <returns>Size of a collection</returns>
-        public int Size() => Books.Count;
-
-        public BookListService(List<Book> books)
+        public BookListService()
         {
             Books = new List<Book>();
         }
 
-        public BookListService() : this(new List<Book>()) { }
+        public Book[] GetArray()
+        {
+            return Books.ToArray();
+        }
 
         /// <summary>
         /// Adds book
@@ -86,7 +93,7 @@ namespace BookLibrary
         /// <param name="storage">place to load from</param>
         public void Load(IBookListStorage storage)
         {
-            storage.Load(out _books);
+            Books = new List<Book>(storage.Load());
         }
     }
 }

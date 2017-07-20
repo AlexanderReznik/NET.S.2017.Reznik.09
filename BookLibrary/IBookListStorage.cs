@@ -8,7 +8,7 @@ namespace BookLibrary.Base
 {
     public interface IBookListStorage
     {
-        void Save(List<Book> list);
-        void Load(out List<Book> list);
+        void Save(IEnumerable<Book> list);
+        IEnumerable<Book> Load();
     }
 }

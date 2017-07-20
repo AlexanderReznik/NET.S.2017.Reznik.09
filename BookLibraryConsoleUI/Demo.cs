@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,19 +26,21 @@ namespace BookLibraryConsoleUI
                 Console.WriteLine(e.Message);
             }
             Console.WriteLine("Library:");
-            for (int i = 0; i < service.Size(); i++)
-                Console.WriteLine(service[i]);
+            Show(service);
 
             Book b = new Book("A. C. Doyle", "Sherlok Holmes", 1980, 550);
-            Console.WriteLine($"{service[0]} == {b}{service[0] == b}");
-            Console.WriteLine($"{service[1]} == {b}{service[1] == b}");
+            Book c = new Book("A. C. Doyle", "Sherlok Holmes", 1980, 550);
+            Book d = new Book("A. C. Doyle", "The Lost World", 1980, 550);
+            Console.WriteLine($"{b} == {c}{b == c}");
+            Console.WriteLine($"{b} == {d}{b == d}");
 
             Console.WriteLine(service.FindBookByTag(x => x.Name == "R. Zelazny"));
 
-            service.SortBooksByTag(new FullComparer());
+
+
+            service.SortBooksByTag(new NameComparer());
             Console.WriteLine("Sorted Library:");
-            for (int i = 0; i < service.Size(); i++)
-                Console.WriteLine(service[i]);
+            Show(service);
 
             BinaryBookListStorage s = new BinaryBookListStorage("storage.txt");
             service.Save(s);
@@ -47,10 +50,29 @@ namespace BookLibraryConsoleUI
 
             Console.WriteLine();
             Console.WriteLine("Loaded Library:");
-            for (int i = 0; i < otherBookListService.Size(); i++)
-                Console.WriteLine(otherBookListService[i]);
+            Show(otherBookListService);
 
             Console.ReadKey();
+        }
+
+        private static void Show(BookListService serv)
+        {
+            var arr = serv.GetArray();
+            foreach (var book in arr)
+            {
+                Console.WriteLine(book);
+            }
+        }
+    }
+
+    public class NameComparer : IComparer<Book>
+    {
+        public int Compare(Book lhs, Book rhs)
+        {
+            if (lhs == null || rhs == null)
+                throw new ArgumentNullException();
+
+            return string.CompareOrdinal(lhs.Name, rhs.Name);
         }
     }
 }
