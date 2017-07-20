@@ -12,18 +12,18 @@ namespace BookLibrary
         private List<Book> _books;
         private List<Book> Books { get { return _books; } set { _books = value; }}
 
+        private readonly ILogger logger;
+
         /// <summary>
         /// c-tor
         /// </summary>
         /// <param name="books">Collection of books</param>
-        public BookListService(IEnumerable<Book> books)
+        /// /// <param name="logger">Logger to log</param>
+        public BookListService(IEnumerable<Book> books, ILogger log = null)
         {
-            if (books == null)
-            {
-                Books = new List<Book>();
-                return;
-            }
-            Books = new List<Book>(books);
+            Books = books == null ? new List<Book>() : new List<Book>(books);
+
+            logger = log == null ? new NLogger() : log;
         }
 
         /// <summary>
@@ -32,6 +32,7 @@ namespace BookLibrary
         public BookListService()
         {
             Books = new List<Book>();
+            logger = new NLogger();
         }
 
         public Book[] GetArray()
@@ -45,9 +46,18 @@ namespace BookLibrary
         /// <param name="book">Book to add</param>
         public void AddBook(Book book)
         {
-            if(book == null) throw new ArgumentNullException();
-            if(Books.Contains(book)) throw new ArgumentException($"{book} already exists.");
+            if (book == null)
+            {
+                logger.Debug("Exception in adding");
+                throw new ArgumentNullException();
+            }
+            if (Books.Contains(book))
+            {
+                logger.Debug("Exception in adding");
+                throw new ArgumentException($"{book} already exists.");
+            }
             Books.Add(book);
+            logger.Debug($"Book {book} added");
         }
 
         /// <summary>
@@ -56,6 +66,7 @@ namespace BookLibrary
         /// <param name="predicate">Criteria to find</param>
         public Book FindBookByTag(Predicate<Book> predicate)
         {
+            logger.Debug("Finding book");
             return Books.Find(predicate);
         }
 
@@ -66,6 +77,7 @@ namespace BookLibrary
         public void RemoveBook(Book book)
         {
             if (!Books.Contains(book)) throw new ArgumentException($"{book} doesn't exist.");
+            logger.Debug("Removing book");
             Books.Remove(book);
         }
 
@@ -85,6 +97,7 @@ namespace BookLibrary
         public void Save(IBookListStorage storage)
         {
             storage.Save(Books);
+            logger.Debug("Saving books");
         }
 
         /// <summary>
@@ -93,6 +106,7 @@ namespace BookLibrary
         /// <param name="storage">place to load from</param>
         public void Load(IBookListStorage storage)
         {
+            logger.Debug("Loading book");
             Books = new List<Book>(storage.Load());
         }
     }
