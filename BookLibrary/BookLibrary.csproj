@@ -52,6 +52,8 @@
     <Compile Include="IBookService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storages\BinaryBookListStorage.cs" />
+    <Compile Include="Storages\BinarySerializibleBookListStorage.cs" />
+    <Compile Include="Storages\XMLSerializibleBookListStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="NLog.config">

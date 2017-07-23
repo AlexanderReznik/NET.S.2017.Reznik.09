@@ -53,7 +53,7 @@ namespace BookLibrary
         {
             if(list == null)
                 throw new ArgumentNullException();
-            using (BinaryWriter writer = new BinaryWriter(File.OpenWrite(FileName)))
+            using (BinaryWriter writer = new BinaryWriter(File.Create(FileName)))
             {
                 foreach (Book b in list)
                 {

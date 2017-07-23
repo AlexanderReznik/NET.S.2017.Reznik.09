@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BookLibrary;
+using BookLibrary.Storages;
 
 namespace BookLibraryConsoleUI
 {
@@ -49,8 +50,28 @@ namespace BookLibraryConsoleUI
             otherBookListService.Load(s);
 
             Console.WriteLine();
-            Console.WriteLine("Loaded Library:");
+            Console.WriteLine("Loaded Library from binary:");
             Show(otherBookListService);
+
+            BinarySerializibleBookListStorage serialize = new BinarySerializibleBookListStorage("SerializedStorage.txt");
+            service.Save(serialize);
+
+            BookListService serializedBookListService = new BookListService();
+            serializedBookListService.Load(serialize);
+
+            Console.WriteLine();
+            Console.WriteLine("Loaded Library from binary with serialization:");
+            Show(serializedBookListService);
+
+            XMLSerializibleBookListStorage xml = new XMLSerializibleBookListStorage("SerializedStorage.txt");
+            service.Save(xml);
+
+            BookListService xmlBookListService = new BookListService();
+            xmlBookListService.Load(xml);
+
+            Console.WriteLine();
+            Console.WriteLine("Loaded Library from xml with serialization:");
+            Show(xmlBookListService);
 
             Console.ReadKey();
         }

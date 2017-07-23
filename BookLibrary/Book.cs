@@ -7,28 +7,71 @@ using System.Threading.Tasks;
 
 namespace BookLibrary
 {
+    [Serializable]
     public class Book : IComparable<Book>, IComparable, IEquatable<Book>
     {
         #region properties
+
+        private string _name;
+        private string _author;
+        private int _year;
+        private int _pages;
+
         /// <summary>
         /// Title of the book
         /// </summary>
-        public string Name { get;}
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if(value == null)
+                    throw new ArgumentNullException();
+                _name = value;
+            }
+        }
 
         /// <summary>
         /// Author (or authors)
         /// </summary>
-        public string Author { get;}
+        public string Author
+        {
+            get { return _author; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                _author = value;
+            }
+        }
 
         /// <summary>
         /// The year, this book was published
         /// </summary>
-        public int Year { get;}
+        public int Year
+        {
+            get { return _year; }
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException();
+                _year = value;
+            }
+        }
 
         /// <summary>
         /// Number of pages
         /// </summary>
-        public int Pages { get;}
+        public int Pages
+        {
+            get { return _pages; }
+            set
+            {
+                if (value < 1)
+                    throw new ArgumentException();
+                _pages = value;
+            }
+        }
 
         #endregion
 
@@ -66,9 +109,7 @@ namespace BookLibrary
         /// <param name="year">Year</param>
         /// <param name="pages">number of pages</param>
         public Book(string author, string name, int year, int pages)
-        {
-            if(author == null || name == null) throw new ArgumentNullException();
-            if(pages < 1 || year < 0) throw new ArgumentOutOfRangeException();
+        { 
             Name = name;
             Author = author;
             Year = year;
